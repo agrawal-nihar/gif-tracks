@@ -1,13 +1,14 @@
 //
 //  AppDelegate.swift
-//  GIF_Tracks_3
+//  GIF_Tracks
 //
-//  Created by Nihar Agrawal on 8/12/17.
+//  Created by Nihar Agrawal on 8/9/17.
 //  Copyright © 2017 Nihar Agrawal. All rights reserved.
 //
 
 import UIKit
 import CoreData
+import FacebookCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        
         return true
     }
 
@@ -36,6 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        //AppEventsLogger.activate(application)
+
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -44,6 +51,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:] ) -> Bool {
+        return SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        
+
+    }
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentContainer = {
@@ -53,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "GIF_Tracks_3")
+        let container = NSPersistentContainer(name: "GIF_Tracks")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
