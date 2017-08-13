@@ -23,6 +23,7 @@
 		E93BE0C31F3FC47C005E5239 /* ImageLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93BE0BE1F3FC47C005E5239 /* ImageLoadingViewController.swift */; };
 		E93BE0C41F3FC47C005E5239 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93BE0BF1F3FC47C005E5239 /* PhotoCell.swift */; };
 		E93BE0C91F3FC4A7005E5239 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93BE0C81F3FC4A7005E5239 /* CloudKit.framework */; };
+		E93BE0CD1F3FDF58005E5239 /* Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93BE0CC1F3FDF58005E5239 /* Cloud.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		E93BE0BF1F3FC47C005E5239 /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		E93BE0C51F3FC492005E5239 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E93BE0C81F3FC4A7005E5239 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		E93BE0CC1F3FDF58005E5239 /* Cloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloud.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				E93BE0B21F3FC38D005E5239 /* GIF_Tracks_3.entitlements */,
 				E93BE08B1F3FC37C005E5239 /* Assets.xcassets */,
 				E93BE0B31F3FC463005E5239 /* AppDelegate.swift */,
+				E93BE0CC1F3FDF58005E5239 /* Cloud.swift */,
 				E93BE0B51F3FC469005E5239 /* GetUserFBFriends.swift */,
 				E93BE0B71F3FC46E005E5239 /* ViewController.swift */,
 				E93BE0B91F3FC474005E5239 /* Main.storyboard */,
@@ -487,6 +490,7 @@
 				E93BE0B61F3FC469005E5239 /* GetUserFBFriends.swift in Sources */,
 				E93BE0B81F3FC46E005E5239 /* ViewController.swift in Sources */,
 				E93BE0C01F3FC47C005E5239 /* AudioProcessor.swift in Sources */,
+				E93BE0CD1F3FDF58005E5239 /* Cloud.swift in Sources */,
 				E93BE08A1F3FC37C005E5239 /* GIF_Tracks_3.xcdatamodeld in Sources */,
 				E93BE0C11F3FC47C005E5239 /* AudioVideoJoiner.swift in Sources */,
 				E93BE0C31F3FC47C005E5239 /* ImageLoadingViewController.swift in Sources */,

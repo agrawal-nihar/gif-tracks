@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow $(PRODUCT_NAME) to access Microphone?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow $(PRODUCT_NAME) to access Photos?</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -27,11 +31,11 @@
 			<string>com.GIF_Tracks_3</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb1861278110867446</string>
+				<string>fb1265647180225318</string>
 			</array>
 			<key>URL Schemes</key>
 			<array>
-				<string>fb1861278110867446</string>
+				<string>fb1265647180225318</string>
 			</array>
 		</dict>
 	</array>

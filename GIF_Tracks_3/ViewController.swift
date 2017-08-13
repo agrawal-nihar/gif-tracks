@@ -70,7 +70,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
-    private func clearTemporaryDirectory() {
+    @IBAction func clearTemporaryDirectory() {
         var tempDirectoryContents : [String]
         let fileManager = FileManager()
         do {
@@ -103,6 +103,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     @IBAction func exportToPhotos() {
+        print("In exportToPhotos")
         let photoLibrary = PHPhotoLibrary.shared()
         photoLibrary.performChanges({
             let outputFilePath = NSTemporaryDirectory() + "movie.mp4"
@@ -118,6 +119,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
             }
         }
         
+        //save to Cloud KIT!!!!
+        saveToPublicDB()
     }
     
     //reset to original, regardless of state

@@ -12,6 +12,7 @@ import FacebookCore
 
 //supports generation of news feed of GIFs
 
+var friendsDictionary : [String: AnyObject]!
 
 struct FriendsRequest: GraphRequestProtocol {
     struct Response: GraphResponseProtocol {
@@ -88,10 +89,12 @@ extension ViewController {
             switch result {
             case .success(let response):
                 print("In success of 77")
-                print("Count in dictionaryValue in View Controller: \(response.dictionaryValue["1260232664098847"])")
+                friendsDictionary = response.dictionaryValue
+                print("Count in dictionaryValue in View Controller: \(response.dictionaryValue["10211452097715662"])")
                 //print("Custom Graph Request Succeeded: \(response)")
                 //print("My facebook id is \(response.dictionaryValue?["id"])")
                 //print("My name is \(response.dictionaryValue?["name"])")
+                print("\(friendsDictionary)")
                 connection.cancel()
 
             case .failed(let error):
