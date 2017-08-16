@@ -17,7 +17,6 @@ import ImageIO
 class GIFConverterToVideo {
     var duration : Double
     var GIFSourceFilePath : String
-    var mult16imageSize : CGSize
     var outputFilePath : String
     var outputSettings : [String: Any]
     var sourcePixelAttributesDictionary : [String : NSNumber]
@@ -34,7 +33,6 @@ class GIFConverterToVideo {
         secondsPerFrame = frameTimeInterval
         imageArray = images
         numberOfImages = numImages
-        mult16imageSize = CGSize(width: 0, height: 0) //default
         outputSettings = [String: Any]()
         sourcePixelAttributesDictionary = [String: NSNumber]()
         duration = 0
@@ -57,61 +55,23 @@ class GIFConverterToVideo {
         mult16width = Int(floor(CGFloat(imageArray[0].width) / 16)) * 16
         mult16height = Int(floor(CGFloat(imageArray[0].height) / 16)) * 16
         
-        mult16imageSize = CGSize(width: mult16width, height: mult16height)
-        
         outputSettings =  [
             AVVideoCodecKey: AVVideoCodecH264,
-            AVVideoWidthKey: NSNumber(value: Float(mult16imageSize.width)),
-            AVVideoHeightKey: NSNumber(value: Float(mult16imageSize.height)),
+            AVVideoWidthKey: NSNumber(value: Float(mult16width)),
+            AVVideoHeightKey: NSNumber(value: Float(mult16height)),
         ]
         sourcePixelAttributesDictionary = [
             kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_32ARGB),
-            kCVPixelBufferWidthKey as String: NSNumber(value: Float(mult16imageSize.width)),
-            kCVPixelBufferHeightKey as String: NSNumber(value: Float(mult16imageSize.height))
+            kCVPixelBufferWidthKey as String: NSNumber(value: Float(mult16width)),
+            kCVPixelBufferHeightKey as String: NSNumber(value: Float(mult16height))
         ]
 
     }
     
     public func doConvertGIFtoVideo() -> Bool {
-        //self.createGIFSource()
         return self.implementConversion()
     }
-    
-    /* private func createGIFSource() -> Void {
-        
-        //get data behind GIF
-        let imageDataURL = NSURL.fileURL(withPath: GIFSourceFilePath)
-        let imageData = try! Data(contentsOf: imageDataURL as URL)
-        let gifImages = CGImageSourceCreateWithData(NSData(data: imageData), nil)
-        numberOfImages = Int(CGImageSourceGetCount(gifImages!))
-        
-        for imageIndex in 0..<numberOfImages {
-            let imageToAppend = CGImageSourceCreateImageAtIndex(gifImages!, imageIndex, nil)
-            if let imageforArray = imageToAppend {
-                imageArray.append(imageforArray)
-            }
-            else {
-                print("Error in getting image \(imageIndex)")
-            }
-        }
-        mult16imageSize = CGSize(width: floor(CGFloat(imageArray[0].width) / 16) * 16, height: floor(CGFloat(imageArray[0].height) / 16) * 16)
-        
-        outputSettings =  [
-            AVVideoCodecKey: AVVideoCodecH264,
-            AVVideoWidthKey: NSNumber(value: Float(mult16imageSize.width)),
-            AVVideoHeightKey: NSNumber(value: Float(mult16imageSize.height)),
-        ]
-        sourcePixelAttributesDictionary = [
-            kCVpixBufPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_32ARGB),
-            kCVpixBufWidthKey as String: NSNumber(value: Float(mult16imageSize.width)),
-            kCVpixBufHeightKey as String: NSNumber(value: Float(mult16imageSize.height))
-        ]
-        
-        return
-    } */
- 
-    
-        //DONE
+
     private func implementConversion() -> Bool {
         let assetWriter = try? AVAssetWriter(url: URL(fileURLWithPath: outputFilePath), fileType: AVFileTypeMPEG4)
         if (assetWriter != nil) {
@@ -167,17 +127,16 @@ class GIFConverterToVideo {
         var frameSeconds = -1 * numberOfSecondsPerFrame
         
         for image in imageArray {
-            let presentationTime = CMTime(seconds: frameSeconds, preferredTimescale: 600)
+            let presentTime = CMTime(seconds: frameSeconds, preferredTimescale: 600)
             
             guard let pixBufPool = assetWriterInputpixBufAdaptor.pixelBufferPool else {
-                print("pixBufPool is nil ")
                 return false
             }
             
             var pixBufOut: CVPixelBuffer?
-            let status = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pixBufPool, &pixBufOut)
-            if status != kCVReturnSuccess {
-                fatalError("CVpixBufPoolCreatepixBuf() failed")
+            let success = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pixBufPool, &pixBufOut)
+            if success != kCVReturnSuccess {
+                return false
             }
             let pixBuf = pixBufOut!
             
@@ -187,12 +146,12 @@ class GIFConverterToVideo {
             
             let cgContext = CGContext(data: pixBufAddress, width: mult16width, height: mult16height, bitsPerComponent: image.bitsPerComponent, bytesPerRow: 4*mult16width, space: color, bitmapInfo:CGImageAlphaInfo.premultipliedFirst.rawValue, releaseCallback: nil, releaseInfo: nil)
 
-            let rectToClear = CGRect(x: 0, y: 0, width: mult16width, height: mult16height)
-            cgContext?.clear(rectToClear)
-            cgContext?.draw(image, in: rectToClear, byTiling: false)
+            let gifRectangle = CGRect(x: 0, y: 0, width: mult16width, height: mult16height)
+            cgContext!.clear(gifRectangle)
+            cgContext!.draw(image, in: gifRectangle, byTiling: false)
             CVPixelBufferUnlockBaseAddress(pixBuf, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
             
-            assetWriterInputpixBufAdaptor.append(pixBuf, withPresentationTime: presentationTime)
+            assetWriterInputpixBufAdaptor.append(pixBuf, withPresentationTime: presentTime)
             
             frameSeconds += numberOfSecondsPerFrame
         }
